@@ -1,8 +1,5 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
+"Reproducible Research: Peer Assessment 1"
 ---
 
 ### IMPRORTANT NOTE! For the code to work input file "activity.csv" should be in the working directory

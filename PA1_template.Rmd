@@ -107,7 +107,7 @@ And then create the panel plot using function qplot from ggplot2 package
 ```{r}
 echo = TRUE
 datasetNew2<-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
-qplot(interval,steps,data=datasetNew2,facets=.~day,geom="line",main="Daily Activity Pattern")
+qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", ylab="Number of steps")
 ```
 
 The two graphs clearly show change in the activity patterns between weekends and weekdays. Weekends tend to have a smoother distribution of steps within the day, as well as different sleeping and waking up hours. Weekends also show an overall higher number of steps compared to weekdays. 

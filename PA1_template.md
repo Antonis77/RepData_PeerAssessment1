@@ -154,7 +154,7 @@ And then create the panel plot using function qplot from ggplot2 package
 ```r
 echo = TRUE
 datasetNew2<-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
-qplot(interval,steps,data=datasetNew2,facets=.~day,geom="line",main="Daily Activity Pattern")
+qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", ylab="Number of steps")
 ```
 
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 

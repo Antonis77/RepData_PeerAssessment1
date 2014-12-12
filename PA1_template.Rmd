@@ -6,6 +6,7 @@
 
 ## Loading and preprocessing the data
 ```{r}
+echo = TRUE
 #load plyr,ggplot2,knitr & lubridate packages
 library(plyr)
 library(lubridate)
@@ -17,43 +18,51 @@ dataset<-read.csv("activity.csv")
 
 ## What is mean total number of steps taken per day?
 
-### First we create the daily mean Histogram
+First we create the daily mean Histogram
+
 ```{r}
 echo = TRUE
 dailySteps<-tapply(dataset$steps,dataset$date,sum,na.rm=TRUE)
-hist(dailySteps,main="Total number of steps per day",xlab="Number of Steps")
+hist(dailySteps,main="Total number of steps per day",xlab="Steps")
 ```
 
-### Then we calculate Mean and Median values
+Then we calculate Mean and Median values
+
 ```{r}
 echo = TRUE
 mean(dailySteps,na.rm=TRUE)
 median(dailySteps,na.rm=TRUE)
 ```
 ## What is the average daily activity pattern?
-### First we make the graph 
+
+First we make the graph 
+
 ```{r}
 echo = TRUE
 fiveMinuteSteps<-ddply(dataset,.(interval),summarize,steps=mean(steps,na.rm=TRUE))
-plot(fiveMinuteSteps,type="l",xlab="5-min Interval",ylab="Average Number of Steps",main="Daily Activity Pattern")
+plot(fiveMinuteSteps,type="l",xlab="Interval",ylab="Steps",main="Daily Activity Pattern")
 ```
 
-### And then calculate the maximum value
+And then calculate the maximum value
+
 ```{r}
 echo = TRUE
 max(fiveMinuteSteps)
 ```
 
 ## Imputing missing values
-### Question 1: Using complete.cases function we calculate the extracted lines as the number of missing values
+
+Question 1: Using complete.cases function we calculate the extracted lines as the number of missing values
+
 ```{r}
 echo = TRUE
 nrow(dataset[!complete.cases(dataset),])
 ```
 
-### Question2: The NA values are replaced with the time interval average of the 2-month period
+Question2: The NA values are replaced with the time interval average of the 2-month period
 
-### Question3: Excecute the above strategy
+Question3: Excecute the above strategy
+
 ```{r}
 echo = TRUE
 intervals<-levels(as.factor(dataset$interval))
@@ -62,27 +71,30 @@ datasetNew<-data.frame(steps=ifelse(is.na(dataset$steps),fiveMinuteSteps$steps[m
                        date=dataset$date,interval=dataset$interval)
 ```
 
-### Question4: 
+Question4: 
 
 First make the Histogram
+
 ```{r}
 echo = TRUE
 dailyStepsNew<-tapply(datasetNew$steps,datasetNew$date,sum,na.rm=TRUE)
-hist(dailyStepsNew,main="Total number of steps per day",xlab="Number of Steps")
+hist(dailyStepsNew,main="Total number of steps per day",xlab="Steps")
 ```
 
 Then calculate mean and median values
+
 ```{r}
 echo = TRUE
 mean(dailyStepsNew,na.rm=TRUE)
 median(dailyStepsNew,na.rm=TRUE)
 ```
 
-Comparing the results we come to the conclusion that removing NA values has a minor impact on the total number of steps calculated per day. This is not surpising as approximately 13.1% of the total records were NAs, very close actually to the increase of the mean value. Interestingly the distribution of steps seems to change before and after removing NAs, with the same case having much less records in the lower values and more around the mean and medium values.
+Comparing the results we come to the conclusion that removing NA values had an observable impact on the total number of steps calculated per day. This is not surpising as approximately 13.1% of the total records were NAs, very close actually to the increase of the mean value. Interestingly the distribution of steps seems to change before and after removing NAs as well.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-### First we create a new factor variable in our dataset
+First we create a new factor variable in our dataset
+
 ```{r}
 echo = TRUE
 datasetNew$date<-ymd(datasetNew$date)
@@ -90,11 +102,12 @@ datasetNew$day<-as.factor(weekdays(datasetNew$date))
 datasetNew$day<-ifelse(datasetNew$day=="Saturday"|datasetNew$day=="Sunday","weekend","weekday")
 ```
 
-### And then create the panel plot using function qplot from ggplot2 package
+And then create the panel plot using function qplot from ggplot2 package
+
 ```{r}
 echo = TRUE
 datasetNew2<-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
-qplot(interval,steps,data=datasetNew2,facets=.~day,geom="line")
+qplot(interval,steps,data=datasetNew2,facets=.~day,geom="line",main="Daily Activity Pattern")
 ```
 
 The two graphs clearly show change in the activity patterns between weekends and weekdays. Weekends tend to have a smoother distribution of steps within the day, as well as different sleeping and waking up hours. Weekends also show an overall higher number of steps compared to weekdays. 

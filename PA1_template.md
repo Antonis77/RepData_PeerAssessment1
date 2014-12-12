@@ -1,13 +1,11 @@
 ---
 "Reproducible Research: Peer Assessment 1"
 ---
-
 ### IMPRORTANT NOTE! For the code to work input file "activity.csv" should be in the working directory
 
 ## Loading and preprocessing the data
 
 ```r
-echo = TRUE
 #load plyr,ggplot2,knitr & lubridate packages
 library(plyr)
 library(lubridate)
@@ -23,7 +21,6 @@ First we create the daily mean Histogram
 
 
 ```r
-echo = TRUE
 dailySteps<-tapply(dataset$steps,dataset$date,sum,na.rm=TRUE)
 hist(dailySteps,main="Total number of steps per day",xlab="Steps")
 ```
@@ -34,7 +31,6 @@ Then we calculate Mean and Median values
 
 
 ```r
-echo = TRUE
 mean(dailySteps,na.rm=TRUE)
 ```
 
@@ -55,7 +51,6 @@ First we make the graph
 
 
 ```r
-echo = TRUE
 fiveMinuteSteps<-ddply(dataset,.(interval),summarize,steps=mean(steps,na.rm=TRUE))
 plot(fiveMinuteSteps,type="l",xlab="Interval",ylab="Steps",main="Daily Activity Pattern")
 ```
@@ -66,7 +61,6 @@ And then calculate the maximum value
 
 
 ```r
-echo = TRUE
 max(fiveMinuteSteps)
 ```
 
@@ -80,7 +74,6 @@ Question 1: Using complete.cases function we calculate the extracted lines as th
 
 
 ```r
-echo = TRUE
 nrow(dataset[!complete.cases(dataset),])
 ```
 
@@ -94,7 +87,6 @@ Question3: Excecute the above strategy
 
 
 ```r
-echo = TRUE
 intervals<-levels(as.factor(dataset$interval))
 matches<-match(dataset$interval,as.numeric(intervals))
 datasetNew<-data.frame(steps=ifelse(is.na(dataset$steps),fiveMinuteSteps$steps[matches],dataset$steps),
@@ -107,7 +99,6 @@ First make the Histogram
 
 
 ```r
-echo = TRUE
 dailyStepsNew<-tapply(datasetNew$steps,datasetNew$date,sum,na.rm=TRUE)
 hist(dailyStepsNew,main="Total number of steps per day",xlab="Steps")
 ```
@@ -118,7 +109,6 @@ Then calculate mean and median values
 
 
 ```r
-echo = TRUE
 mean(dailyStepsNew,na.rm=TRUE)
 ```
 
@@ -142,7 +132,6 @@ First we create a new factor variable in our dataset
 
 
 ```r
-echo = TRUE
 datasetNew$date<-ymd(datasetNew$date)
 datasetNew$day<-as.factor(weekdays(datasetNew$date))
 datasetNew$day<-ifelse(datasetNew$day=="Saturday"|datasetNew$day=="Sunday","weekend","weekday")
@@ -152,7 +141,6 @@ And then create the panel plot using function qplot from ggplot2 package
 
 
 ```r
-echo = TRUE
 datasetNew2<-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
 qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", ylab="Number of steps")
 ```

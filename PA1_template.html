@@ -205,8 +205,7 @@ hr {
 
 <h2>Loading and preprocessing the data</h2>
 
-<pre><code class="r">echo = TRUE
-#load plyr,ggplot2,knitr &amp; lubridate packages
+<pre><code class="r">#load plyr,ggplot2,knitr &amp; lubridate packages
 library(plyr)
 library(lubridate)
 library(ggplot2)
@@ -218,8 +217,7 @@ dataset&lt;-read.csv(&quot;activity.csv&quot;)
 
 <p>First we create the daily mean Histogram</p>
 
-<pre><code class="r">echo = TRUE
-dailySteps&lt;-tapply(dataset$steps,dataset$date,sum,na.rm=TRUE)
+<pre><code class="r">dailySteps&lt;-tapply(dataset$steps,dataset$date,sum,na.rm=TRUE)
 hist(dailySteps,main=&quot;Total number of steps per day&quot;,xlab=&quot;Steps&quot;)
 </code></pre>
 
@@ -227,8 +225,7 @@ hist(dailySteps,main=&quot;Total number of steps per day&quot;,xlab=&quot;Steps&
 
 <p>Then we calculate Mean and Median values</p>
 
-<pre><code class="r">echo = TRUE
-mean(dailySteps,na.rm=TRUE)
+<pre><code class="r">mean(dailySteps,na.rm=TRUE)
 </code></pre>
 
 <pre><code>## [1] 9354.23
@@ -244,8 +241,7 @@ mean(dailySteps,na.rm=TRUE)
 
 <p>First we make the graph </p>
 
-<pre><code class="r">echo = TRUE
-fiveMinuteSteps&lt;-ddply(dataset,.(interval),summarize,steps=mean(steps,na.rm=TRUE))
+<pre><code class="r">fiveMinuteSteps&lt;-ddply(dataset,.(interval),summarize,steps=mean(steps,na.rm=TRUE))
 plot(fiveMinuteSteps,type=&quot;l&quot;,xlab=&quot;Interval&quot;,ylab=&quot;Steps&quot;,main=&quot;Daily Activity Pattern&quot;)
 </code></pre>
 
@@ -253,8 +249,7 @@ plot(fiveMinuteSteps,type=&quot;l&quot;,xlab=&quot;Interval&quot;,ylab=&quot;Ste
 
 <p>And then calculate the maximum value</p>
 
-<pre><code class="r">echo = TRUE
-max(fiveMinuteSteps)
+<pre><code class="r">max(fiveMinuteSteps)
 </code></pre>
 
 <pre><code>## [1] 2355
@@ -264,8 +259,7 @@ max(fiveMinuteSteps)
 
 <p>Question 1: Using complete.cases function we calculate the extracted lines as the number of missing values</p>
 
-<pre><code class="r">echo = TRUE
-nrow(dataset[!complete.cases(dataset),])
+<pre><code class="r">nrow(dataset[!complete.cases(dataset),])
 </code></pre>
 
 <pre><code>## [1] 2304
@@ -275,8 +269,7 @@ nrow(dataset[!complete.cases(dataset),])
 
 <p>Question3: Excecute the above strategy</p>
 
-<pre><code class="r">echo = TRUE
-intervals&lt;-levels(as.factor(dataset$interval))
+<pre><code class="r">intervals&lt;-levels(as.factor(dataset$interval))
 matches&lt;-match(dataset$interval,as.numeric(intervals))
 datasetNew&lt;-data.frame(steps=ifelse(is.na(dataset$steps),fiveMinuteSteps$steps[matches],dataset$steps),
                        date=dataset$date,interval=dataset$interval)
@@ -286,8 +279,7 @@ datasetNew&lt;-data.frame(steps=ifelse(is.na(dataset$steps),fiveMinuteSteps$step
 
 <p>First make the Histogram</p>
 
-<pre><code class="r">echo = TRUE
-dailyStepsNew&lt;-tapply(datasetNew$steps,datasetNew$date,sum,na.rm=TRUE)
+<pre><code class="r">dailyStepsNew&lt;-tapply(datasetNew$steps,datasetNew$date,sum,na.rm=TRUE)
 hist(dailyStepsNew,main=&quot;Total number of steps per day&quot;,xlab=&quot;Steps&quot;)
 </code></pre>
 
@@ -295,8 +287,7 @@ hist(dailyStepsNew,main=&quot;Total number of steps per day&quot;,xlab=&quot;Ste
 
 <p>Then calculate mean and median values</p>
 
-<pre><code class="r">echo = TRUE
-mean(dailyStepsNew,na.rm=TRUE)
+<pre><code class="r">mean(dailyStepsNew,na.rm=TRUE)
 </code></pre>
 
 <pre><code>## [1] 10766.19
@@ -314,16 +305,14 @@ mean(dailyStepsNew,na.rm=TRUE)
 
 <p>First we create a new factor variable in our dataset</p>
 
-<pre><code class="r">echo = TRUE
-datasetNew$date&lt;-ymd(datasetNew$date)
+<pre><code class="r">datasetNew$date&lt;-ymd(datasetNew$date)
 datasetNew$day&lt;-as.factor(weekdays(datasetNew$date))
 datasetNew$day&lt;-ifelse(datasetNew$day==&quot;Saturday&quot;|datasetNew$day==&quot;Sunday&quot;,&quot;weekend&quot;,&quot;weekday&quot;)
 </code></pre>
 
 <p>And then create the panel plot using function qplot from ggplot2 package</p>
 
-<pre><code class="r">echo = TRUE
-datasetNew2&lt;-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
+<pre><code class="r">datasetNew2&lt;-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
 qplot(interval,steps,data=datasetNew2,facets=day~.,geom=&quot;line&quot;,main=&quot;Daily Activity Pattern&quot;, ylab=&quot;Number of steps&quot;)
 </code></pre>
 

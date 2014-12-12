@@ -3,6 +3,7 @@
 ---
 ### IMPRORTANT NOTE! For the code to work input file "activity.csv" should be in the working directory
 
+
 ## Loading and preprocessing the data
 
 ```r
@@ -22,10 +23,14 @@ First we create the daily mean Histogram
 
 ```r
 dailySteps<-tapply(dataset$steps,dataset$date,sum,na.rm=TRUE)
+```
+
+
+```r
 hist(dailySteps,main="Total number of steps per day",xlab="Steps")
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 Then we calculate Mean and Median values
 
@@ -52,10 +57,14 @@ First we make the graph
 
 ```r
 fiveMinuteSteps<-ddply(dataset,.(interval),summarize,steps=mean(steps,na.rm=TRUE))
+```
+
+
+```r
 plot(fiveMinuteSteps,type="l",xlab="Interval",ylab="Steps",main="Daily Activity Pattern")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
 
 And then calculate the maximum value
 
@@ -100,10 +109,14 @@ First make the Histogram
 
 ```r
 dailyStepsNew<-tapply(datasetNew$steps,datasetNew$date,sum,na.rm=TRUE)
+```
+
+
+```r
 hist(dailyStepsNew,main="Total number of steps per day",xlab="Steps")
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png) 
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
 
 Then calculate mean and median values
 
@@ -142,9 +155,13 @@ And then create the panel plot using function qplot from ggplot2 package
 
 ```r
 datasetNew2<-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
+```
+
+
+```r
 qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", ylab="Number of steps")
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15-1.png) 
 
 The two graphs clearly show change in the activity patterns between weekends and weekdays. Weekends tend to have a smoother distribution of steps within the day, as well as different sleeping and waking up hours. Weekends also show an overall higher number of steps compared to weekdays. 

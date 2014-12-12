@@ -3,6 +3,7 @@
 ---
 ### IMPRORTANT NOTE! For the code to work input file "activity.csv" should be in the working directory
 
+
 ## Loading and preprocessing the data
 ```{r}
 #load plyr,ggplot2,knitr & lubridate packages
@@ -20,6 +21,9 @@ First we create the daily mean Histogram
 
 ```{r}
 dailySteps<-tapply(dataset$steps,dataset$date,sum,na.rm=TRUE)
+```
+
+```{r}
 hist(dailySteps,main="Total number of steps per day",xlab="Steps")
 ```
 
@@ -35,6 +39,9 @@ First we make the graph
 
 ```{r}
 fiveMinuteSteps<-ddply(dataset,.(interval),summarize,steps=mean(steps,na.rm=TRUE))
+```
+
+```{r, fig.width=7, fig.height=6}
 plot(fiveMinuteSteps,type="l",xlab="Interval",ylab="Steps",main="Daily Activity Pattern")
 ```
 
@@ -69,6 +76,9 @@ First make the Histogram
 
 ```{r}
 dailyStepsNew<-tapply(datasetNew$steps,datasetNew$date,sum,na.rm=TRUE)
+```
+
+```{r,fig.width=7, fig.height=6}
 hist(dailyStepsNew,main="Total number of steps per day",xlab="Steps")
 ```
 
@@ -95,6 +105,9 @@ And then create the panel plot using function qplot from ggplot2 package
 
 ```{r}
 datasetNew2<-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
+```
+
+```{r fig.width=7, fig.height=6}
 qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", ylab="Number of steps")
 ```
 

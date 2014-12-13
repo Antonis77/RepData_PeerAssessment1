@@ -52,7 +52,7 @@ median(dailySteps,na.rm=TRUE)
 ```
 ## What is the average daily activity pattern?
 
-First we make the graph 
+First we make the graph. It is important to notice that x-axis represents the 5-min interval in terms of time and not integer number. The format is the so called microwave or military time.
 
 
 ```r
@@ -61,7 +61,7 @@ fiveMinuteSteps<-ddply(dataset,.(interval),summarize,steps=mean(steps,na.rm=TRUE
 
 
 ```r
-plot(fiveMinuteSteps,type="l",xlab="Interval",ylab="Steps",main="Daily Activity Pattern")
+plot(fiveMinuteSteps,type="l",xlab="Interval (microwave time)",ylab="Steps",main="Daily Activity Pattern")
 ```
 
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
@@ -70,11 +70,11 @@ And then calculate the maximum value
 
 
 ```r
-max(fiveMinuteSteps)
+max(fiveMinuteSteps[,2])
 ```
 
 ```
-## [1] 2355
+## [1] 206.1698
 ```
 
 ## Imputing missing values
@@ -159,7 +159,8 @@ datasetNew2<-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
 
 
 ```r
-qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", ylab="Number of steps")
+qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", xlab="Interval ((microwave time)",
+      ylab="Number of steps")
 ```
 
 ![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15-1.png) 

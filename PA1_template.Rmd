@@ -35,20 +35,20 @@ median(dailySteps,na.rm=TRUE)
 ```
 ## What is the average daily activity pattern?
 
-First we make the graph 
+First we make the graph. It is important to notice that x-axis represents the 5-min interval in terms of time and not integer number. The format is the so called microwave or military time.
 
 ```{r}
 fiveMinuteSteps<-ddply(dataset,.(interval),summarize,steps=mean(steps,na.rm=TRUE))
 ```
 
 ```{r, fig.width=7, fig.height=6}
-plot(fiveMinuteSteps,type="l",xlab="Interval",ylab="Steps",main="Daily Activity Pattern")
+plot(fiveMinuteSteps,type="l",xlab="Interval (microwave time)",ylab="Steps",main="Daily Activity Pattern")
 ```
 
 And then calculate the maximum value
 
 ```{r}
-max(fiveMinuteSteps)
+max(fiveMinuteSteps[,2])
 ```
 
 ## Imputing missing values
@@ -108,7 +108,8 @@ datasetNew2<-ddply(datasetNew,.(interval,day),summarize,steps=mean(steps))
 ```
 
 ```{r fig.width=7, fig.height=6}
-qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", ylab="Number of steps")
+qplot(interval,steps,data=datasetNew2,facets=day~.,geom="line",main="Daily Activity Pattern", xlab="Interval ((microwave time)",
+      ylab="Number of steps")
 ```
 
 The two graphs clearly show change in the activity patterns between weekends and weekdays. Weekends tend to have a smoother distribution of steps within the day, as well as different sleeping and waking up hours. Weekends also show an overall higher number of steps compared to weekdays. 
